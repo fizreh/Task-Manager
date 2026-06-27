@@ -1,0 +1,11 @@
+C:\Users\Farhan\Documents\Faiza\Projects\TaskManager\TaskManager\TaskManager.AppLayer\bin\Debug\net9.0\TaskManager.AppLayer.deps.json
+C:\Users\Farhan\Documents\Faiza\Projects\TaskManager\TaskManager\TaskManager.AppLayer\bin\Debug\net9.0\TaskManager.AppLayer.dll
+C:\Users\Farhan\Documents\Faiza\Projects\TaskManager\TaskManager\TaskManager.AppLayer\bin\Debug\net9.0\TaskManager.AppLayer.pdb
+C:\Users\Farhan\Documents\Faiza\Projects\TaskManager\TaskManager\TaskManager.AppLayer\obj\Debug\net9.0\TaskManager.AppLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Farhan\Documents\Faiza\Projects\TaskManager\TaskManager\TaskManager.AppLayer\obj\Debug\net9.0\TaskManager.AppLayer.AssemblyInfoInputs.cache
+C:\Users\Farhan\Documents\Faiza\Projects\TaskManager\TaskManager\TaskManager.AppLayer\obj\Debug\net9.0\TaskManager.AppLayer.AssemblyInfo.cs
+C:\Users\Farhan\Documents\Faiza\Projects\TaskManager\TaskManager\TaskManager.AppLayer\obj\Debug\net9.0\TaskManager.AppLayer.csproj.CoreCompileInputs.cache
+C:\Users\Farhan\Documents\Faiza\Projects\TaskManager\TaskManager\TaskManager.AppLayer\obj\Debug\net9.0\TaskManager.AppLayer.dll
+C:\Users\Farhan\Documents\Faiza\Projects\TaskManager\TaskManager\TaskManager.AppLayer\obj\Debug\net9.0\refint\TaskManager.AppLayer.dll
+C:\Users\Farhan\Documents\Faiza\Projects\TaskManager\TaskManager\TaskManager.AppLayer\obj\Debug\net9.0\TaskManager.AppLayer.pdb
+C:\Users\Farhan\Documents\Faiza\Projects\TaskManager\TaskManager\TaskManager.AppLayer\obj\Debug\net9.0\ref\TaskManager.AppLayer.dll
