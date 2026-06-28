@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TaskManager.AppLayer.Interfaces;
+using TaskManager.Application.Services;
 
 namespace TaskManager.UI.DependencyInjection;
 
@@ -19,12 +21,13 @@ public static class HostBuilder
     private static void RegisterUI(IServiceCollection services)
     {
         services.AddSingleton<MainWindow>();
+        //View  models
         services.AddSingleton<TaskManager.UI.ViewModels.MainViewModel>();
     }
 
     private static void RegisterApplication(IServiceCollection services)
     {
-        
-        // services.AddScoped<ITaskService, TaskService>();
+        //Application services
+        services.AddScoped<ITaskService, TaskService>();
     }
 }

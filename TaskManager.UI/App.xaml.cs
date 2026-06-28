@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Windows;
-using TaskManager.UI.DependencyInjection;
+using TaskManager.UI;
 
 namespace TaskManager.UI;
 
@@ -17,7 +17,9 @@ public partial class App : System.Windows.Application
         _host.Start();
 
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
-        mainWindow.DataContext = _host.Services.GetRequiredService<TaskManager.UI.ViewModels.MainViewModel>();
+        var viewModel = _host.Services.GetRequiredService<TaskManager.UI.ViewModels.MainViewModel>();
+
+        mainWindow.DataContext = viewModel;
 
         mainWindow.Show();
     }
