@@ -17,6 +17,9 @@ namespace TaskManager.AppLayer.Interfaces
 
         public Task DeleteTaskAsync(Guid taskId);
 
+
+        Task ReopenTaskAsync(Guid taskId);
+
         public Task AssignTaskAsync(Guid taskId, Guid assignedToUserId, Guid assignedByUserId);
     }
 }
