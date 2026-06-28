@@ -17,6 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Infrastructure"
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.AppLayer", "TaskManager.AppLayer\TaskManager.AppLayer.csproj", "{A31BA911-6641-F9AD-0667-BE589C38F47C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2846E56A-49AA-5BF7-74AB-811C546C6862} = {2846E56A-49AA-5BF7-74AB-811C546C6862}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
