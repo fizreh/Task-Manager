@@ -75,4 +75,15 @@ public class TaskService : ITaskService
 
         return Task.CompletedTask;
     }
+
+    public Task ReopenTaskAsync(Guid taskId)
+    {
+        var task = _tasks.FirstOrDefault(t => t.Id == taskId);
+
+        task?.Reopen();
+
+        return Task.CompletedTask;
+    }
+
+   
 }

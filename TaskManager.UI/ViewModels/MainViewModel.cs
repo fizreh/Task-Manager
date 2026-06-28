@@ -19,8 +19,10 @@ public class MainViewModel : BaseViewModel
         Tasks = new ObservableCollection<TodoTask>();
 
         AddTaskCommand = new AsyncRelayCommand(AddTaskAsync, CanAddTask);
-
         LoadTasksCommand = new AsyncRelayCommand(LoadTasksAsync);
+        CompleteTaskCommand = new AsyncRelayCommand(CompleteTaskAsync, CanModifyTask);
+        DeleteTaskCommand = new AsyncRelayCommand(DeleteTaskAsync, CanModifyTask);
+        ReopenTaskCommand = new AsyncRelayCommand(ReopenTaskAsync, CanModifyTask);
     }
 
     #region Properties (UI Inputs)
@@ -57,6 +59,21 @@ public class MainViewModel : BaseViewModel
         set => SetProperty(ref _dueDate, value);
     }
 
+    private TodoTask? _selectedTask;
+
+    public TodoTask? SelectedTask
+    {
+        get => _selectedTask;
+        set
+        {
+            if (SetProperty(ref _selectedTask, value))
+            {
+                CompleteTaskCommand.RaiseCanExecuteChanged();
+                DeleteTaskCommand.RaiseCanExecuteChanged();
+            }
+        }
+    }
+
     #endregion
 
     #region Task Collection
@@ -69,6 +86,9 @@ public class MainViewModel : BaseViewModel
 
     public AsyncRelayCommand AddTaskCommand { get; }
     public AsyncRelayCommand LoadTasksCommand { get; }
+    public AsyncRelayCommand CompleteTaskCommand { get; }
+    public AsyncRelayCommand DeleteTaskCommand { get; }
+    public AsyncRelayCommand ReopenTaskCommand { get; }
 
     #endregion
 
@@ -77,6 +97,11 @@ public class MainViewModel : BaseViewModel
     private bool CanAddTask()
     {
         return !string.IsNullOrWhiteSpace(Title);
+    }
+
+    private bool CanModifyTask()
+    {
+        return SelectedTask != null;
     }
 
     private async Task AddTaskAsync()
@@ -110,11 +135,39 @@ public class MainViewModel : BaseViewModel
         }
     }
 
+    private async Task CompleteTaskAsync()
+    {
+        if (SelectedTask == null) return;
+
+        await _taskService.CompleteTaskAsync(SelectedTask.Id);
+
+        SelectedTask.MarkCompleted();
+    }
+
+    private async Task ReopenTaskAsync()
+    {
+        if (SelectedTask == null) return;
+
+        await _taskService.ReopenTaskAsync(SelectedTask.Id);
+
+        SelectedTask.Reopen();
+    }
+
+    private async Task DeleteTaskAsync()
+    {
+        if (SelectedTask == null) return;
+
+        await _taskService.DeleteTaskAsync(SelectedTask.Id);
+
+        Tasks.Remove(SelectedTask);
+        SelectedTask = null;
+    }
+
     private void ClearInputs()
     {
         Title = string.Empty;
         Description = string.Empty;
-        Priority = Priority.Medium;
+        Priority = Priority.Low;
         DueDate = DateTime.Today.AddDays(1);
     }
 

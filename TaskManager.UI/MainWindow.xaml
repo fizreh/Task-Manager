@@ -9,8 +9,13 @@
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <!-- Input -->
             <RowDefinition Height="Auto"/>
+            <!-- Header -->
             <RowDefinition Height="*"/>
+            <!-- List -->
+            <RowDefinition Height="Auto"/>
+            <!-- Buttons -->
         </Grid.RowDefinitions>
 
         <!-- INPUT SECTION -->
@@ -60,32 +65,60 @@
                    Margin="0,10"/>
 
         <!-- TASK LIST -->
-        <ListView Grid.Row="2"
-                  ItemsSource="{Binding Tasks}">
+        <Border Grid.Row="2"
+        Margin="0,5"
+        BorderBrush="LightGray"
+        BorderThickness="1"
+        Padding="5">
+            <ListView Grid.Row="2"
+                  ItemsSource="{Binding Tasks}"
+                  SelectedItem="{Binding SelectedTask}"
+                  SelectionMode="Single">
 
-            <ListView.View>
-                <GridView>
+                <ListView.View>
+                    <GridView>
 
-                    <GridViewColumn Header="Title"
+                        <GridViewColumn Header="Title"
                                     DisplayMemberBinding="{Binding Title}"
                                     Width="200"/>
 
-                    <GridViewColumn Header="Priority"
+                        <GridViewColumn Header="Priority"
                                     DisplayMemberBinding="{Binding Priority}"
                                     Width="100"/>
 
-                    <GridViewColumn Header="Status"
+                        <GridViewColumn Header="Status"
                                     DisplayMemberBinding="{Binding Status}"
                                     Width="120"/>
 
-                    <GridViewColumn Header="Due Date"
+                        <GridViewColumn Header="Due Date"
                                     DisplayMemberBinding="{Binding DueDate}"
                                     Width="150"/>
 
-                </GridView>
-            </ListView.View>
+                    </GridView>
+                </ListView.View>
 
-        </ListView>
+            </ListView>
+        </Border>
+
+        <StackPanel Grid.Row="3"  Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            Margin="0,10,0,0">
+
+            <Button Content="Complete"
+            Width="100"
+            Margin="5"
+            Command="{Binding CompleteTaskCommand}" />
+
+            <Button Content="Reopen"
+            Width="100"
+            Margin="5"
+            Command="{Binding ReopenTaskCommand}" />
+
+            <Button Content="Delete"
+            Width="100"
+            Margin="5"
+            Command="{Binding DeleteTaskCommand}" />
+        </StackPanel>
 
     </Grid>
 </Window>
