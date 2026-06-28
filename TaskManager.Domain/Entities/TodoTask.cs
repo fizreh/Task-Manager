@@ -1,4 +1,5 @@
 ﻿using TaskManager.Domain.Enums;
+using TaskManager.Domain.Events;
 using TaskManager.Domain.Validations;
 using TaskStatus = TaskManager.Domain.Enums.TaskStatus;
 
@@ -28,6 +29,10 @@ public class TodoTask
 
     public DateTime? CompletedOn { get; private set; }
 
+    private readonly List<DomainEvent> _domainEvents = new();
+
+    public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents;
+
     #region Constructor
 
     public TodoTask(
@@ -45,6 +50,7 @@ public class TodoTask
         TaskValidator.ValidateDescription(description);
         TaskValidator.ValidateDueDate(dueDate);
         TaskValidator.ValidateAssignment(assignedToUserId, assignedByUserId);
+        AddDomainEvent(new TaskCreatedEvent(this));
 
         Title = title;
         Description = description;
@@ -57,9 +63,23 @@ public class TodoTask
         Status = TaskStatus.Pending;
     }
 
+
     #endregion
 
     #region Behavior Methods
+
+    public void MarkCompleted()
+    {
+        if (Status == TaskStatus.Completed)
+            return;
+
+        Status = TaskStatus.Completed;
+        CompletedOn = DateTime.UtcNow;
+
+        AddDomainEvent(new TaskCompletedEvent(Id));
+
+        Touch();
+    }
 
     public void Rename(string title)
     {
@@ -101,17 +121,6 @@ public class TodoTask
         Touch();
     }
 
-    public void MarkCompleted()
-    {
-        if (Status == TaskStatus.Completed)
-            return;
-
-        Status = TaskStatus.Completed;
-        CompletedOn = DateTime.UtcNow;
-
-        Touch();
-    }
-
     public void Reopen()
     {
         if (Status != TaskStatus.Completed)
@@ -142,6 +151,11 @@ public class TodoTask
     private void Touch()
     {
         UpdatedOn = DateTime.UtcNow;
+    }
+
+    private void AddDomainEvent(DomainEvent domainEvent)
+    {
+        _domainEvents.Add(domainEvent);
     }
 
     #endregion
