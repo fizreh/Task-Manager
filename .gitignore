@@ -1,0 +1,14 @@
+# User-specific files
+.vs/
+*.user
+*.suo
+
+# Build outputs
+[Bb]in/
+[Oo]bj/
+
+# Tooling and caches
+.artifacts/
+*.sourcelink.json
+*.cache
+
