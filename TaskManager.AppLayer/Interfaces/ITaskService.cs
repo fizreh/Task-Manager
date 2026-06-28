@@ -1,4 +1,5 @@
-﻿using TaskManager.Domain.Entities;
+﻿using TaskManager.AppLayer.DTOs;
+using TaskManager.Domain.Entities;
 using TaskManager.Domain.Enums;
 
 namespace TaskManager.AppLayer.Interfaces
@@ -6,12 +7,7 @@ namespace TaskManager.AppLayer.Interfaces
     public interface ITaskService
     {
         public Task<TodoTask> CreateTaskAsync(
-           string title, 
-           string? description, 
-           Priority priority, 
-           DateTime dueDate, 
-           Guid? assignedToUserId, 
-           Guid? assignedByUserId);
+           CreateTaskDTO taskDTO);
         public Task UpdateTaskAsync(TodoTask task);
         public Task<TodoTask?> GetTaskByIdAsync(Guid taskId);
         public Task<List<TodoTask>> GetAllTasksAsync();

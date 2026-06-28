@@ -1,4 +1,5 @@
-﻿using TaskManager.AppLayer.Interfaces;
+﻿using TaskManager.AppLayer.DTOs;
+using TaskManager.AppLayer.Interfaces;
 using TaskManager.Domain.Entities;
 using TaskManager.Domain.Enums;
 
@@ -8,21 +9,15 @@ public class TaskService : ITaskService
 {
     private readonly List<TodoTask> _tasks = new();
 
-    public Task<TodoTask> CreateTaskAsync(
-        string title,
-        string? description,
-        Priority priority,
-        DateTime dueDate,
-        Guid? assignedToUserId,
-        Guid? assignedByUserId)
+    public Task<TodoTask> CreateTaskAsync(CreateTaskDTO taskDTO)
     {
         var task = new TodoTask(
-            title,
-            description,
-            priority,
-            dueDate,
-            assignedToUserId,
-            assignedByUserId);
+            taskDTO.Title,
+            taskDTO.Description,
+            taskDTO.Priority,
+            taskDTO.DueDate,
+            taskDTO.AssignedToUserId,
+            taskDTO.AssignedByUserId);
 
         _tasks.Add(task);
 
