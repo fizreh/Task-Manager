@@ -12,3 +12,6 @@
 *.sourcelink.json
 *.cache
 
+# Local environment secret variables
+.env
+

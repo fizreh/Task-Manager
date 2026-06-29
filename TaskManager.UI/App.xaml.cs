@@ -1,7 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Windows;
 using TaskManager.UI;
+
 
 namespace TaskManager.UI;
 
@@ -18,6 +21,7 @@ public partial class App : System.Windows.Application
 
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
         var viewModel = _host.Services.GetRequiredService<TaskManager.UI.ViewModels.MainViewModel>();
+        viewModel.LoadTasksCommand.Execute(null); // Load tasks when the application starts
 
         mainWindow.DataContext = viewModel;
 

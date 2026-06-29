@@ -1,4 +1,6 @@
-﻿using TaskManager.Domain.Enums;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.NetworkInformation;
+using TaskManager.Domain.Enums;
 using TaskManager.Domain.Events;
 using TaskManager.Domain.Validations;
 using TaskStatus = TaskManager.Domain.Enums.TaskStatus;
@@ -31,6 +33,7 @@ public class TodoTask
 
     private readonly List<DomainEvent> _domainEvents = new();
 
+    [NotMapped]
     public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents;
 
     #region Constructor
@@ -55,7 +58,7 @@ public class TodoTask
         Title = title;
         Description = description;
         Priority = priority;
-        DueDate = dueDate;
+        DueDate = NormalizeToUtc(dueDate);
 
         AssignedToUserId = assignedToUserId;
         AssignedByUserId = assignedByUserId;
@@ -67,6 +70,11 @@ public class TodoTask
     #endregion
 
     #region Behavior Methods
+
+    public static DateTime NormalizeToUtc(DateTime dateTime)
+    {
+        return DateTime.SpecifyKind(dateTime, DateTimeKind.Local).ToUniversalTime();
+    }
 
     public void MarkCompleted()
     {
@@ -133,15 +141,19 @@ public class TodoTask
     }
 
     public void Update(
-        string title,
-        string? description,
-        Priority priority,
-        DateTime dueDate)
+     string title,
+     string description,
+     Priority priority,
+     DateTime dueDate)
     {
-        Rename(title);
-        ChangeDescription(description);
-        ChangePriority(priority);
-        ChangeDueDate(dueDate);
+        TaskValidator.ValidateTitle(title);
+        TaskValidator.ValidateDescription(description);
+
+        Title = title;
+        Description = description;
+        Priority = priority;
+        DueDate = NormalizeToUtc(dueDate);
+        UpdatedOn = DateTime.UtcNow;
     }
 
     #endregion
