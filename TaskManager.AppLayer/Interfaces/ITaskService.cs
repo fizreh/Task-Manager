@@ -8,7 +8,7 @@ namespace TaskManager.AppLayer.Interfaces
     {
         public Task<TodoTask> CreateTaskAsync(
            CreateTaskDTO taskDTO);
-        public Task UpdateTaskAsync(TodoTask task);
+        public Task<TodoTask> UpdateTaskAsync(UpdateTaskDTO taskDTO);
         public Task<TodoTask?> GetTaskByIdAsync(Guid taskId);
         public Task<List<TodoTask>> GetAllTasksAsync();
 

@@ -7,7 +7,7 @@ using TaskManager.Domain.Enums;
 
 namespace TaskManager.AppLayer.DTOs
 {
-    internal class UpdateTaskDTO
+    public class UpdateTaskDTO
     {
         public Guid Id { get; set; }
 

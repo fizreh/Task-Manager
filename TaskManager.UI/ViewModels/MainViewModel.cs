@@ -23,6 +23,7 @@ public class MainViewModel : BaseViewModel
         CompleteTaskCommand = new AsyncRelayCommand(CompleteTaskAsync, CanModifyTask);
         DeleteTaskCommand = new AsyncRelayCommand(DeleteTaskAsync, CanModifyTask);
         ReopenTaskCommand = new AsyncRelayCommand(ReopenTaskAsync, CanModifyTask);
+        UpdateTaskCommand = new AsyncRelayCommand(UpdateTaskAsync, CanModifyTask);
     }
 
     #region Properties (UI Inputs)
@@ -70,6 +71,9 @@ public class MainViewModel : BaseViewModel
             {
                 CompleteTaskCommand.RaiseCanExecuteChanged();
                 DeleteTaskCommand.RaiseCanExecuteChanged();
+                UpdateTaskCommand.RaiseCanExecuteChanged();
+
+                LoadSelectedTaskToInputs();
             }
         }
     }
@@ -89,6 +93,7 @@ public class MainViewModel : BaseViewModel
     public AsyncRelayCommand CompleteTaskCommand { get; }
     public AsyncRelayCommand DeleteTaskCommand { get; }
     public AsyncRelayCommand ReopenTaskCommand { get; }
+    public AsyncRelayCommand UpdateTaskCommand { get; }
 
     #endregion
 
@@ -102,6 +107,11 @@ public class MainViewModel : BaseViewModel
     private bool CanModifyTask()
     {
         return SelectedTask != null;
+    }
+
+    public async Task InitializeAsync()
+    {
+        await LoadTasksAsync();
     }
 
     private async Task AddTaskAsync()
@@ -123,6 +133,36 @@ public class MainViewModel : BaseViewModel
         ClearInputs();
     }
 
+    private async Task UpdateTaskAsync()
+    {
+        if (SelectedTask == null) return;
+        var request = new UpdateTaskDTO
+        {
+            Id = SelectedTask.Id,
+            Title = Title,
+            Description = Description,
+            Priority = Priority,
+            DueDate = DueDate
+
+        };
+
+        var task = await _taskService.UpdateTaskAsync(request);
+
+        Tasks.Add(task);
+
+        ClearInputs();
+    }
+
+    private void LoadSelectedTaskToInputs()
+    {
+        if (SelectedTask == null) return;
+
+        Title = SelectedTask.Title;
+        Description = SelectedTask.Description;
+        Priority = SelectedTask.Priority;
+        DueDate = SelectedTask.DueDate;
+    }
+
     private async Task LoadTasksAsync()
     {
         var tasks = await _taskService.GetAllTasksAsync();
@@ -142,6 +182,10 @@ public class MainViewModel : BaseViewModel
         await _taskService.CompleteTaskAsync(SelectedTask.Id);
 
         SelectedTask.MarkCompleted();
+
+        await LoadTasksAsync();
+
+       
     }
 
     private async Task ReopenTaskAsync()
