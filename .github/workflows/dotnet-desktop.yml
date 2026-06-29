@@ -1,0 +1,37 @@
+name: .NET Desktop CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    env:
+      Solution_Name: TaskManager.sln
+      Build_Configuration: Release
+
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.Solution_Name }}
+
+    - name: Build solution
+      run: dotnet build ${{ env.Solution_Name }} --configuration ${{ env.Build_Configuration }} --no-restore
+
+    - name: Run tests
+      run: dotnet test ${{ env.Solution_Name }} --configuration ${{ env.Build_Configuration }} --no-build
